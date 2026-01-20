@@ -97,7 +97,9 @@ namespace PLD
             
             foreach (var status in downloadStatus)
             {
+                Console.WriteLine("-------------------------------");
                 Console.WriteLine($"{(status.Value.IsDownloaded ? "✅" : "❌")} {status.Key} - {(status.Value.IsDownloaded && status.Value.ResultFileName != null ? $"Success, file name: {status.Value.ResultFileName}, file location: {status.Value.FileLocation}" : $"Failed, PDF unavailable for {status.Value.PageUrl}")}");
+                Console.WriteLine("-------------------------------");
             }
             
             Console.WriteLine($"ℹ️ Total URLs processed: {downloadStatus.Count} entries. ✅ Successful: {downloadStatus.Count(ds => ds.Value.IsDownloaded)}, ❌ Failed: {downloadStatus.Count(ds => !ds.Value.IsDownloaded)}.");

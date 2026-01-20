@@ -17,7 +17,7 @@ namespace PLD
 
             var adjustedFilePath = Path.GetFullPath(filePath);
 
-            Console.WriteLine($"Started reading {filePath}...");
+            Console.WriteLine($"Started reading {adjustedFilePath}...");
 
             if (!File.Exists(adjustedFilePath) || !File.GetAttributes(adjustedFilePath).HasFlag(FileAttributes.Normal))
             {

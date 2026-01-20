@@ -1,2 +1,7 @@
 #!/bin/bash
-dotnet publish -c Release -r win-x64 /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+echo "Cleaning previous build artifacts..."
+rm -rfv ./bin
+rm -rfv ./obj
+echo "Publishing for windows-x64..."
+dotnet publish -c Release -r windows-x64 --self-contained false
+echo "Publish completed."

@@ -7,7 +7,9 @@ namespace PLD
         public static async Task Main(string[] args)
         {
             var filePath = args.Length > 0 ? args[0] : null;
+
             Console.WriteLine(filePath);
+
             if (string.IsNullOrEmpty(filePath))
             {
                 Console.WriteLine("Please provide a valid file path as a command-line argument.");
@@ -23,7 +25,16 @@ namespace PLD
                 return;
             }
 
-            var listOfUrls = JsonSerializer.Deserialize<List<string>>(await File.ReadAllTextAsync(adjustedFilePath)) ?? new List<string>();
+            var listOfUrls = new List<string>();
+            try
+            {
+                listOfUrls.AddRange(JsonSerializer.Deserialize<List<string>>(await File.ReadAllTextAsync(adjustedFilePath)) ?? new List<string>());
+            }
+            catch (JsonException)
+            {
+                Console.WriteLine($"The file {adjustedFilePath} is not a valid JSON file.");
+                return;
+            }
 
             if (listOfUrls.Count == 0)
             {

@@ -8,8 +8,6 @@ namespace PLD
         {
             var filePath = args.Length > 0 ? args[0] : null;
 
-            Console.WriteLine(filePath);
-
             if (string.IsNullOrEmpty(filePath))
             {
                 Console.WriteLine("Please provide a valid file path as a command-line argument.");
@@ -18,6 +16,8 @@ namespace PLD
             }
 
             var adjustedFilePath = Path.GetFullPath(filePath);
+
+            Console.WriteLine($"Started reading {filePath}...");
 
             if (!File.Exists(adjustedFilePath) || !File.GetAttributes(adjustedFilePath).HasFlag(FileAttributes.Normal))
             {

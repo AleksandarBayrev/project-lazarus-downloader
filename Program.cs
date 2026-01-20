@@ -62,7 +62,7 @@ namespace PLD
                     }
 
                     var resultFile = pdfUrl.Split('/').Last();
-                    Console.WriteLine($"⚠️ Downloading PDF from: {pdfUrl} to {resultFile}");
+                    Console.WriteLine($"⚠️ Downloading PDF from: {pdfUrl} to {Path.Combine(Directory.GetCurrentDirectory(), resultFile)}");
 
                     var result = await PdfUrlDownloader.DownloadPdfAsync(pdfUrl, resultFile);
 

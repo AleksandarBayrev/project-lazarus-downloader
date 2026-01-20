@@ -56,6 +56,7 @@ namespace PLD
             {
                 try
                 {
+                    Console.WriteLine();
                     Console.WriteLine($"⚠️ Processing URL: {url}");
                     Console.WriteLine();
                     var pdfUrl = await PdfUrlFetcher.FetchPdfUrlAsync(url);

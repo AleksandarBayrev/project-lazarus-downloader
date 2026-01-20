@@ -7,6 +7,7 @@ namespace PLD
         public static async Task Main(string[] args)
         {
             Console.WriteLine("🚀 Project Lazarus Downloader started...");
+            Console.WriteLine();
 
             var filePath = args.Length > 0 ? args[0] : null;
 
@@ -20,6 +21,7 @@ namespace PLD
             var adjustedFilePath = Path.GetFullPath(filePath);
 
             Console.WriteLine($"⚠️ Started reading {adjustedFilePath}...");
+            Console.WriteLine();
 
             if (!File.Exists(adjustedFilePath) || !File.GetAttributes(adjustedFilePath).HasFlag(FileAttributes.Normal))
             {
@@ -47,6 +49,7 @@ namespace PLD
             Console.WriteLine($"✅ Successfully read the list of URLs from path {adjustedFilePath}.");
 
             var downloadStatus = new Dictionary<string, DownloadStatus>();
+            Console.WriteLine();
             Console.WriteLine($"✅ Found {listOfUrls.Count} URLs to process.");
 
             foreach (var url in listOfUrls)
@@ -54,6 +57,7 @@ namespace PLD
                 try
                 {
                     Console.WriteLine($"⚠️ Processing URL: {url}");
+                    Console.WriteLine();
                     var pdfUrl = await PdfUrlFetcher.FetchPdfUrlAsync(url);
 
                     if (pdfUrl == null)
@@ -66,6 +70,7 @@ namespace PLD
 
                     var result = await PdfUrlDownloader.DownloadPdfAsync(pdfUrl, resultFile);
 
+                    Console.WriteLine();
                     if (!result)
                     {
                         Console.WriteLine($"❌ Failed to download the PDF from {pdfUrl}.");
@@ -97,12 +102,13 @@ namespace PLD
             
             foreach (var status in downloadStatus)
             {
-                Console.WriteLine("-------------------------------");
+                Console.WriteLine();
                 Console.WriteLine($"{(status.Value.IsDownloaded ? "✅" : "❌")} {status.Key} - {(status.Value.IsDownloaded && status.Value.ResultFileName != null ? $"Success, file name: {status.Value.ResultFileName}, file location: {status.Value.FileLocation}" : $"Failed, PDF unavailable for {status.Value.PageUrl}")}");
-                Console.WriteLine("-------------------------------");
+                Console.WriteLine();
             }
             
             Console.WriteLine($"ℹ️ Total URLs processed: {downloadStatus.Count} entries. ✅ Successful: {downloadStatus.Count(ds => ds.Value.IsDownloaded)}, ❌ Failed: {downloadStatus.Count(ds => !ds.Value.IsDownloaded)}.");
+            Console.WriteLine();
             Console.WriteLine("✅ All operations completed.");
         }
     }

@@ -1,6 +1,8 @@
 # project-lazarus-downloader
 Small utility to download from https://projectlazarus.bg/
 
+## Requirements - latest .NET 10 Runtime, you can download it from [here](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+
 ## How to use
 * Windows/Linux supported
 * `project-lazarus-downloader.exe PATH\TO\JSON\FILE.json` with the urls of the magazines you want to download

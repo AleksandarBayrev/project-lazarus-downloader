@@ -36,7 +36,7 @@ namespace PLD
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error fetching PDF URL from the page {pageUrl}, error: {ex.Message}");
+                Console.WriteLine($"❌ Error fetching PDF URL from the page {pageUrl}, error: {ex.Message}");
                 return null;
 
             }

@@ -6,22 +6,24 @@ namespace PLD
     {
         public static async Task Main(string[] args)
         {
+            Console.WriteLine("🚀 Project Lazarus Downloader started...");
+
             var filePath = args.Length > 0 ? args[0] : null;
 
             if (string.IsNullOrEmpty(filePath))
             {
-                Console.WriteLine("Please provide a valid file path as a command-line argument.");
-                Console.WriteLine("Example: project-lazarus-downloader.exe urls.json or project-lazarus-downloader /home/aleksandar/Downloads/urls.json");
+                Console.WriteLine("❌ Please provide a valid file path as a command-line argument.");
+                Console.WriteLine("ℹ️ Example: project-lazarus-downloader.exe urls.json or project-lazarus-downloader /home/aleksandar/Downloads/urls.json");
                 return;
             }
 
             var adjustedFilePath = Path.GetFullPath(filePath);
 
-            Console.WriteLine($"Started reading {adjustedFilePath}...");
+            Console.WriteLine($"⚠️ Started reading {adjustedFilePath}...");
 
             if (!File.Exists(adjustedFilePath) || !File.GetAttributes(adjustedFilePath).HasFlag(FileAttributes.Normal))
             {
-                Console.WriteLine($"The specified file {adjustedFilePath} does not exist.");
+                Console.WriteLine($"❌ The specified file {adjustedFilePath} does not exist.");
                 return;
             }
 
@@ -32,45 +34,45 @@ namespace PLD
             }
             catch (JsonException)
             {
-                Console.WriteLine($"The file {adjustedFilePath} is not a valid JSON file.");
+                Console.WriteLine($"❌ The file {adjustedFilePath} is not a valid JSON file.");
                 return;
             }
 
             if (listOfUrls.Count == 0)
             {
-                Console.WriteLine("The list of URLs is empty.");
+                Console.WriteLine("❌ The list of URLs is empty.");
                 return;
             }
 
-            Console.WriteLine($"Successfully read the list of URLs from path {adjustedFilePath}.");
+            Console.WriteLine($"✅ Successfully read the list of URLs from path {adjustedFilePath}.");
 
             var downloadStatus = new Dictionary<string, DownloadStatus>();
-            Console.WriteLine($"Found {listOfUrls.Count} URLs to process.");
+            Console.WriteLine($"✅ Found {listOfUrls.Count} URLs to process.");
 
             foreach (var url in listOfUrls)
             {
                 try
                 {
-                    Console.WriteLine($"Processing URL: {url}");
+                    Console.WriteLine($"⚠️ Processing URL: {url}");
                     var pdfUrl = await PdfUrlFetcher.FetchPdfUrlAsync(url);
 
                     if (pdfUrl == null)
                     {
-                        throw new Exception($"No PDF URL found on the page {url}.");
+                        throw new Exception($"❌ No PDF URL found on the page {url}.");
                     }
 
                     var resultFile = pdfUrl.Split('/').Last();
-                    Console.WriteLine($"Downloading PDF from: {pdfUrl} to {resultFile}");
+                    Console.WriteLine($"⚠️ Downloading PDF from: {pdfUrl} to {resultFile}");
 
                     var result = await PdfUrlDownloader.DownloadPdfAsync(pdfUrl, resultFile);
 
                     if (!result)
                     {
-                        Console.WriteLine($"Failed to download the PDF from {pdfUrl}.");
+                        Console.WriteLine($"❌ Failed to download the PDF from {pdfUrl}.");
                         continue;
                     }
 
-                    Console.WriteLine($"PDF {resultFile} downloaded successfully.");
+                    Console.WriteLine($"✅ PDF {resultFile} downloaded successfully.");
                     downloadStatus[url] = new DownloadStatus
                     {
                         PageUrl = url,
@@ -80,7 +82,7 @@ namespace PLD
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"An error occurred: {ex.Message}");
+                    Console.WriteLine($"❌An error occurred: {ex.Message}");
                     downloadStatus[url] = new DownloadStatus
                     {
                         PageUrl = url,
@@ -90,10 +92,10 @@ namespace PLD
                 }
             }
 
-            Console.WriteLine("Download Summary:");
+            Console.WriteLine("ℹ️ Download Summary:");
             foreach (var status in downloadStatus)
             {
-                Console.WriteLine($"{status.Key} - {(status.Value.IsDownloaded && status.Value.ResultFileName != null ? $"Success, file name: {status.Value.ResultFileName}" : $"Failed, PDF unavailable for {status.Value.PageUrl}")}");
+                Console.WriteLine($"{(status.Value.IsDownloaded ? "✅" : "❌")} {status.Key} - {(status.Value.IsDownloaded && status.Value.ResultFileName != null ? $"Success, file name: {status.Value.ResultFileName}" : $"Failed, PDF unavailable for {status.Value.PageUrl}")}");
             }
         }
     }

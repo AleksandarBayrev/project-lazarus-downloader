@@ -20,7 +20,7 @@ namespace PLD
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error downloading PDF from {pdfUrl}, error: {ex.Message}");
+                Console.WriteLine($"❌ Error downloading PDF from {pdfUrl}, error: {ex.Message}");
                 return false;
             }
         }

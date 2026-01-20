@@ -93,10 +93,14 @@ namespace PLD
             }
 
             Console.WriteLine("ℹ️ Download Summary:");
+            
             foreach (var status in downloadStatus)
             {
                 Console.WriteLine($"{(status.Value.IsDownloaded ? "✅" : "❌")} {status.Key} - {(status.Value.IsDownloaded && status.Value.ResultFileName != null ? $"Success, file name: {status.Value.ResultFileName}" : $"Failed, PDF unavailable for {status.Value.PageUrl}")}");
             }
+            
+            Console.WriteLine($"ℹ️ Total URLs processed: {downloadStatus.Count} entries. ✅ Successful: {downloadStatus.Count(ds => ds.Value.IsDownloaded)}, ❌ Failed: {downloadStatus.Count(ds => !ds.Value.IsDownloaded)}.");
+            Console.WriteLine("✅ All operations completed.");
         }
     }
 }
